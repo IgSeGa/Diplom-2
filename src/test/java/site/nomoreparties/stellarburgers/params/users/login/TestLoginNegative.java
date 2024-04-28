@@ -39,13 +39,17 @@ public class TestLoginNegative extends BaseTest {
     @Before
     public void setUp(){
         baseTestURL();
-        createTestUser("diplomauser@praktikum.ru", "1234", "Vasya");
+        createTestUser(getEmail(), getPassword(), getName());
     }
     @Step
     public Response loginIncorrect(){
         LoginUserBody params = new LoginUserBody(email, password);
         Response response = given().header("Content-type", "application/json").and().body(params).post("api/auth/login");
         return response;
+    }
+    @Step
+    public void checkSuccess(Response response){
+        response.then().assertThat().body("success", equalTo(success));
     }
     @Step
     public void checkCode(Response response){
@@ -60,11 +64,12 @@ public class TestLoginNegative extends BaseTest {
     public void checkLoginNegative(){
         Response response = loginIncorrect();
         checkCode(response);
+        checkSuccess(response);
         checkMessage(response);
     }
 
     @After
     public void clearData(){
-        deleteTestUser("diplomauser@praktikum.ru","1234");
+        deleteTestUser(getEmail(),getPassword());
     }
 }

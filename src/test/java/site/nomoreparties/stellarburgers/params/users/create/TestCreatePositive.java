@@ -8,16 +8,12 @@ import org.junit.Test;
 import site.nomoreparties.stellarburgers.params.BaseTest;
 import site.nomoreparties.stellarburgers.params.body.CreateUserBody;
 import site.nomoreparties.stellarburgers.params.responses.user.create.CreateUser;
-
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.notNullValue;
 
 
 public class TestCreatePositive extends BaseTest {
-    String email = "diplomauser@praktikum.ru";
-    String password = "1234";
-    String name = "Vasya";
 
     @Before
     public void setUp(){
@@ -26,23 +22,23 @@ public class TestCreatePositive extends BaseTest {
 
     @Step
     public Response createUser(){
-        CreateUserBody params = new CreateUserBody(email, password, name);
+        CreateUserBody params = new CreateUserBody(getEmail(), getPassword(), getName());
         Response response = given().header("Content-type", "application/json").and().body(params).post("api/auth/register");
         return response;
     }
     @Step
     public CreateUser createUserPojo(){
-        CreateUserBody params = new CreateUserBody(email, password, name);
+        CreateUserBody params = new CreateUserBody(getEmail(), getPassword(), getName());
         CreateUser response = given().header("Content-type", "application/json").and().body(params).post("api/auth/register").as(CreateUser.class);
         return response;
     }
     @Step
     public void checkName(CreateUser response){
-        Assert.assertEquals(name, response.getUser().getName());
+        Assert.assertEquals(getName(), response.getUser().getName());
     }
     @Step
     public void checkEmail(CreateUser response){
-        Assert.assertEquals(email, response.getUser().getEmail());
+        Assert.assertEquals(getEmail(), response.getUser().getEmail());
     }
     @Step
     public void checkStatus(Response response){
@@ -68,13 +64,6 @@ public class TestCreatePositive extends BaseTest {
         response.then().body("refreshToken", notNullValue());
     }
 
-    @Step
-    public String extractPojoToken(CreateUser response){
-        String x = response.getAccessToken();
-        StringBuilder sb = new StringBuilder(x);
-        String token = sb.delete(0,7).toString();
-        return token;
-    }
 
     @Test
     @DisplayName("Проверка успешного создания пользователя")
@@ -85,10 +74,10 @@ public class TestCreatePositive extends BaseTest {
         checkUser(response);
         checkToken(response);
         checkRefreshToken(response);
-        deleteTestUser(email, password);
+        deleteTestUser(getEmail(), getPassword());
         CreateUser responsePojo = createUserPojo();
         checkName(responsePojo);
         checkEmail(responsePojo);
-        deleteTestUser(email, password);
+        deleteTestUser(getEmail(), getPassword());
     }
 }

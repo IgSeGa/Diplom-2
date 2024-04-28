@@ -9,9 +9,8 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import site.nomoreparties.stellarburgers.params.BaseTest;
 import site.nomoreparties.stellarburgers.params.body.CreateUserBody;
-
 import static io.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.*;
 
 @RunWith(Parameterized.class)
 public class TestCreateNegative extends BaseTest {
@@ -44,7 +43,7 @@ public class TestCreateNegative extends BaseTest {
     @Before
     public void setUp(){
         baseTestURL();
-        createTestUser("diplomauser@praktikum.ru", "1234", "Vasya");
+        createTestUser(getEmail(), getPassword(), getName());
     }
 
     @Step("Отправка запроса")
@@ -79,6 +78,6 @@ public class TestCreateNegative extends BaseTest {
 
     @After
     public void clearData(){
-        deleteTestUser("diplomauser@praktikum.ru", "1234");
+        deleteTestUser(getEmail(), getPassword());
     }
 }

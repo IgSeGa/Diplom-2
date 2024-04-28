@@ -13,25 +13,22 @@ import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.*;
 
 public class TestLoginPositive extends BaseTest {
-    private String email = "diplomauser@praktikum.ru";
-    private String password = "1234";
-    private String name = "Vasya";
 
     @Before
     public void setUp(){
         baseTestURL();
-        createTestUser(email,password,name);
+        createTestUser(getEmail(),getPassword(),getName());
     }
 
     @Step
     public Response loginUser(){
-        LoginUserBody params = new LoginUserBody(email,password);
+        LoginUserBody params = new LoginUserBody(getEmail(),getPassword());
         Response response = given().header("Content-type", "application/json").and().body(params).post("api/auth/login");
         return response;
     }
     @Step
     public LoginUser loginUserPojo(){
-        LoginUserBody params = new LoginUserBody(email,password);
+        LoginUserBody params = new LoginUserBody(getEmail(), getPassword());
         LoginUser response = given().header("Content-type", "application/json").and().body(params).post("api/auth/login").as(LoginUser.class);
         return response;
     }
@@ -53,11 +50,11 @@ public class TestLoginPositive extends BaseTest {
     }
     @Step
     public void checkEmail(LoginUser response){
-        Assert.assertEquals(email, response.getUser().getEmail());
+        Assert.assertEquals(getEmail(), response.getUser().getEmail());
     }
     @Step
     public void checkName(LoginUser response){
-        Assert.assertEquals(name, response.getUser().getName());
+        Assert.assertEquals(getName(), response.getUser().getName());
     }
     @Test
     @DisplayName("Логин позитивная проверка")
@@ -73,6 +70,6 @@ public class TestLoginPositive extends BaseTest {
     }
     @After
     public void clearData(){
-        deleteTestUser(email,password);
+        deleteTestUser(getEmail(),getPassword());
     }
 }
