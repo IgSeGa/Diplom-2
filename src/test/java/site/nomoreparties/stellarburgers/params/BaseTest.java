@@ -91,20 +91,10 @@ public class BaseTest {
         String token = extractTestToken(email, password);
         given().auth().oauth2(token).delete("api/auth/user").then().assertThat().statusCode(202);
     }
-    public void createTestOrder(String email, String password){
-        String token = extractTestToken(email, password);
+    public Response createTestOrder(String[] ingreds, String token){
         CrateOrderBody order = new CrateOrderBody(ingreds);
-        given().header("Content-type", "application/json").auth().oauth2(token).
-                and().body(order).post("api/auth/login");
-    }
-    public void createPojoOrder(String email, String password){
-        String token = extractTestToken(email, password);
-        CrateOrderBody order = new CrateOrderBody(ingreds);
-        given().header("Content-type", "application/json").auth().oauth2(token).
-                and().body(order).post("api/auth/login").as(CreateOrder.class);
-    }
-    public int getOrderNumber(CreateOrder response){
-        int number = response.getOrder().getNumber();
-        return number;
+        Response response = given().header("Content-type", "application/json").auth().oauth2(token).
+                and().body(order).post("api/orders");
+        return response;
     }
 }

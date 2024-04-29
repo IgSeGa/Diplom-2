@@ -1,10 +1,11 @@
 package site.nomoreparties.stellarburgers.params.responses.order.get;
+import java.util.List;
 
 public class GetOrder {
     private boolean success;
     private int total;
     private int totalToday;
-    private Orders[] orders;
+    private List<Orders> orders;
 
     public boolean isSuccess() {
         return success;
@@ -30,11 +31,11 @@ public class GetOrder {
         this.totalToday = totalToday;
     }
 
-    public Orders[] getOrders() {
+    public List<Orders> getOrders() {
         return orders;
     }
 
-    public void setOrders(Orders[] orders) {
+    public void setOrders(List<Orders> orders) {
         this.orders = orders;
     }
 }
