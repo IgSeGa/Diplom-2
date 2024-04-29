@@ -2,12 +2,15 @@ package site.nomoreparties.stellarburgers.params.users.create;
 import io.qameta.allure.Step;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.Response;
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import site.nomoreparties.stellarburgers.params.BaseTest;
 import site.nomoreparties.stellarburgers.params.body.CreateUserBody;
 import site.nomoreparties.stellarburgers.params.responses.user.create.CreateUser;
+
+import static io.restassured.RestAssured.get;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.notNullValue;
@@ -74,10 +77,16 @@ public class TestCreatePositive extends BaseTest {
         checkUser(response);
         checkToken(response);
         checkRefreshToken(response);
-        deleteTestUser(getEmail(), getPassword());
+    }
+    @Test
+    public void checkDetails(){
         CreateUser responsePojo = createUserPojo();
         checkName(responsePojo);
         checkEmail(responsePojo);
+    }
+
+    @After
+    public void clearUp(){
         deleteTestUser(getEmail(), getPassword());
     }
 }

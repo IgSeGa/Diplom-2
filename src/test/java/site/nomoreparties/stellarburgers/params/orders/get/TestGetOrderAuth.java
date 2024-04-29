@@ -3,12 +3,12 @@ import static org.hamcrest.Matchers.*;
 import io.qameta.allure.Step;
 import io.restassured.response.Response;
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import site.nomoreparties.stellarburgers.params.BaseTest;
-
-import java.security.PublicKey;
-
+import site.nomoreparties.stellarburgers.params.responses.order.create.CreateOrder;
+import site.nomoreparties.stellarburgers.params.responses.order.get.GetOrder;
 import static io.restassured.RestAssured.given;
 
 public class TestGetOrderAuth extends BaseTest{
@@ -24,7 +24,11 @@ public class TestGetOrderAuth extends BaseTest{
         Response response = given().auth().oauth2(token).get("api/orders");
         return response;
     }
-
+    @Step
+    public GetOrder makeRequestPojo(){
+        GetOrder order = given().auth().oauth2(extractTestToken(getEmail(), getPassword())).get("api/orders").as(GetOrder.class);
+        return order;
+    }
     @Step
     public void checkStatus(Response response){
         response.then().statusCode(200);
@@ -42,6 +46,7 @@ public class TestGetOrderAuth extends BaseTest{
         response.then().assertThat().body("totalToday", notNullValue());
     }
 
+
     @Test
     public void checkFields(){
         Response response = makeRequest();
@@ -49,6 +54,14 @@ public class TestGetOrderAuth extends BaseTest{
         checkSuccess(response);
         checkTotal(response);
         checkTotalToday(response);
+    }
+    @Test
+    public void checkDetails(){
+        CreateOrder etalon = createTestOrderPojo(getIngreds(), extractTestToken(getEmail(), getPassword()));
+        GetOrder order = makeRequestPojo();
+        Assert.assertEquals(order.getOrders().get(0).getNumber(), etalon.getOrder().getNumber());
+        Assert.assertEquals(order.getOrders().get(0).get_id(), etalon.getOrder().get_id());
+        Assert.assertEquals(order.getOrders().get(0).getName(), etalon.getOrder().getName());
     }
     @After
     public void cleanUp(){

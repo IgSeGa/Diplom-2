@@ -64,6 +64,9 @@ public class TestLoginPositive extends BaseTest {
         checkSuccess(response);
         checkAccess(response);
         checkRefresh(response);
+    }
+    @Test
+    public void checkLoginDetails(){
         LoginUser responsePojo = loginUserPojo();
         checkEmail(responsePojo);
         checkName(responsePojo);

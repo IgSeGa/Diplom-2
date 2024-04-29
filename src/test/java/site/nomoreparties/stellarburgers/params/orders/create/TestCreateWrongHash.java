@@ -6,8 +6,6 @@ import org.junit.Before;
 import org.junit.Test;
 import site.nomoreparties.stellarburgers.params.BaseTest;
 
-import static io.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.equalTo;
 
 public class TestCreateWrongHash extends BaseTest {
     @Before

@@ -97,4 +97,10 @@ public class BaseTest {
                 and().body(order).post("api/orders");
         return response;
     }
+    public CreateOrder createTestOrderPojo(String[] ingreds, String token){
+        CrateOrderBody order = new CrateOrderBody(ingreds);
+        CreateOrder response = given().header("Content-type", "application/json").auth().oauth2(token).
+                and().body(order).post("api/orders").as(CreateOrder.class);;
+        return response;
+    }
 }
