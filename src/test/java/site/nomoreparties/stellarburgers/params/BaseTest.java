@@ -1,8 +1,10 @@
 package site.nomoreparties.stellarburgers.params;
 import io.restassured.RestAssured;
+import io.restassured.response.Response;
 import site.nomoreparties.stellarburgers.params.body.CreateUserBody;
 import site.nomoreparties.stellarburgers.params.body.LoginUserBody;
 import site.nomoreparties.stellarburgers.params.body.CrateOrderBody;
+import site.nomoreparties.stellarburgers.params.responses.order.create.CreateOrder;
 
 import static io.restassured.RestAssured.given;
 
@@ -95,7 +97,14 @@ public class BaseTest {
         given().header("Content-type", "application/json").auth().oauth2(token).
                 and().body(order).post("api/auth/login");
     }
-    public int getOrderNumber(String email, String password){
-        createTestOrder(email, password);
+    public void createPojoOrder(String email, String password){
+        String token = extractTestToken(email, password);
+        CrateOrderBody order = new CrateOrderBody(ingreds);
+        given().header("Content-type", "application/json").auth().oauth2(token).
+                and().body(order).post("api/auth/login").as(CreateOrder.class);
+    }
+    public int getOrderNumber(CreateOrder response){
+        int number = response.getOrder().getNumber();
+        return number;
     }
 }
