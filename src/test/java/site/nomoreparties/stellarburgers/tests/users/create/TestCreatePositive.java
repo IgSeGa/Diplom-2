@@ -80,6 +80,7 @@ public class TestCreatePositive extends BaseTest implements Constants {
         checkRefreshToken(response);
     }
     @Test
+    @DisplayName("Проверка корректной записи имени и почты")
     public void checkDetails(){
         CreateUser responsePojo = createUserPojo();
         checkName(responsePojo);

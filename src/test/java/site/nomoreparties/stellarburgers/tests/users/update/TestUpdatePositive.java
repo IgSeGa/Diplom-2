@@ -22,14 +22,14 @@ public class TestUpdatePositive extends BaseTest implements Constants {
     }
     @Step
     public Response makeRequest(){
-        UpdateUserBody params = new UpdateUserBody(TESTMAIL, TESTPASS);
+        UpdateUserBody params = new UpdateUserBody(SECONDMAIL, SECONDNAME);
         String token = extractTestToken(TESTMAIL, TESTPASS);
         Response response = given().header("Content-type", "application/json").body(params).auth().oauth2(token).patch("api/auth/user");
         return response;
     }
     @Step
     public UpdateUser makeRequestPojo(){
-        UpdateUserBody params = new UpdateUserBody(TESTMAIL, TESTPASS);
+        UpdateUserBody params = new UpdateUserBody(SECONDMAIL, SECONDNAME);
         String token = extractTestToken(TESTMAIL, TESTPASS);
         UpdateUser response = given().header("Content-type", "application/json").body(params).auth().oauth2(token).patch("api/auth/user").as(UpdateUser.class);
         return response;
@@ -44,11 +44,11 @@ public class TestUpdatePositive extends BaseTest implements Constants {
     }
     @Step
     public void checkEmail(UpdateUser response){
-        Assert.assertEquals(TESTMAIL, response.getUser().getEmail());
+        Assert.assertEquals(SECONDMAIL, response.getUser().getEmail());
     }
     @Step
     public void checkName(UpdateUser response){
-        Assert.assertEquals(TESTNAME, response.getUser().getName());
+        Assert.assertEquals(SECONDNAME, response.getUser().getName());
     }
     @Test
     @DisplayName("Проверка кода и успеха")
@@ -66,6 +66,6 @@ public class TestUpdatePositive extends BaseTest implements Constants {
     }
     @After
     public void clearUp(){
-        deleteTestUser(TESTMAIL, TESTPASS);
+        deleteTestUser(SECONDMAIL, TESTPASS);
     }
 }

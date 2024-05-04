@@ -21,7 +21,7 @@ public class TestUserExisting extends BaseTest implements Constants {
     }
     @Step
     public Response makeRequest(){
-        UpdateUserBody params = new UpdateUserBody(TESTMAIL, TESTPASS);
+        UpdateUserBody params = new UpdateUserBody(SECONDMAIL, TESTPASS);
         String token = extractTestToken(TESTMAIL, TESTPASS);
         Response response = given().header("Content-type", "application/json").body(params).auth().oauth2(token).patch("api/auth/user");
         return response;
@@ -49,6 +49,6 @@ public class TestUserExisting extends BaseTest implements Constants {
     @After
     public void clearUp(){
         deleteTestUser(TESTMAIL, TESTPASS);
-        deleteTestUser(SECONDNAME, TESTPASS);
+        deleteTestUser(SECONDMAIL, TESTPASS);
     }
 }
