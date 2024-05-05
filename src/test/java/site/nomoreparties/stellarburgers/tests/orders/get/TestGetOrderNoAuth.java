@@ -13,20 +13,20 @@ public class TestGetOrderNoAuth extends BaseTest {
     public void setUp(){
         baseTestURL();
     }
-    @Step
+    @Step("Запрос заказа")
     public Response makeRequestNoAuth(){
         Response response = given().get("api/orders");
         return response;
     }
-    @Step
+    @Step("Проверка кода")
     public void checkCode(Response response){
         response.then().statusCode(401);
     }
-    @Step
+    @Step("Проверка успеха")
     public void checkSuccess(Response response){
         response.then().assertThat().body("success", equalTo(false));
     }
-    @Step
+    @Step("Проверка сообщения")
     public void checkMessage(Response response){
         response.then().assertThat().body("message", equalTo("You should be authorised"));
     }

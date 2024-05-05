@@ -8,13 +8,13 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import site.nomoreparties.stellarburgers.model.BaseTest;
-import site.nomoreparties.stellarburgers.model.Constants;
+import site.nomoreparties.stellarburgers.model.TestData;
 import site.nomoreparties.stellarburgers.params.api.body.CreateUserBody;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.*;
 
 @RunWith(Parameterized.class)
-public class TestCreateNegative extends BaseTest implements Constants {
+public class TestCreateNegative extends BaseTest implements TestData {
     private String email;
     private String password;
     private String name;
@@ -69,7 +69,7 @@ public class TestCreateNegative extends BaseTest implements Constants {
     }
 
     @Test
-    @DisplayName("Создание пользователя негатив")
+    @DisplayName("Создание пользователя негативная проверка")
     public void createUserNegative(){
         Response response = createUser();
         checkMessage(response);

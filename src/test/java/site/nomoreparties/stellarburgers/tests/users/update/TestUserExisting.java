@@ -6,12 +6,12 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import site.nomoreparties.stellarburgers.model.BaseTest;
-import site.nomoreparties.stellarburgers.model.Constants;
+import site.nomoreparties.stellarburgers.model.TestData;
 import site.nomoreparties.stellarburgers.params.api.body.UpdateUserBody;
 import static org.hamcrest.Matchers.*;
 import static io.restassured.RestAssured.given;
 
-public class TestUserExisting extends BaseTest implements Constants {
+public class TestUserExisting extends BaseTest implements TestData {
 
     @Before
     public void setUp(){
@@ -19,27 +19,27 @@ public class TestUserExisting extends BaseTest implements Constants {
         createTestUser(TESTMAIL, TESTPASS, TESTNAME);
         createTestUser(SECONDMAIL, TESTPASS, SECONDNAME);
     }
-    @Step
+    @Step("Создание запроса с используемыми данными")
     public Response makeRequest(){
         UpdateUserBody params = new UpdateUserBody(SECONDMAIL, TESTPASS);
         String token = extractTestToken(TESTMAIL, TESTPASS);
         Response response = given().header("Content-type", "application/json").body(params).auth().oauth2(token).patch("api/auth/user");
         return response;
     }
-    @Step
+    @Step("Проверка кода ответа")
     public void checkCode(Response response){
         response.then().statusCode(403);
     }
-    @Step
+    @Step("Проверка успеха")
     public void checkSuccess(Response response){
         response.then().body("success", equalTo(false));
     }
-    @Step
+    @Step("Проверка сообщения")
     public void checkMessage(Response response){
         response.then().body("message", equalTo("User with such email already exists"));
     }
     @Test
-    @DisplayName("Проверка обновления без авторизации")
+    @DisplayName("Проверка обновления на используемые данные")
     public void testUpdateNoAuth(){
         Response response = makeRequest();
         checkCode(response);

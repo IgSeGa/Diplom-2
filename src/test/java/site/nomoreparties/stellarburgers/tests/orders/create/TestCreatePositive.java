@@ -1,5 +1,6 @@
 package site.nomoreparties.stellarburgers.tests.orders.create;
 import io.qameta.allure.Step;
+import io.qameta.allure.junit4.DisplayName;
 import org.junit.Before;
 import site.nomoreparties.stellarburgers.model.BaseTest;
 import static io.restassured.RestAssured.given;
@@ -7,22 +8,22 @@ import static org.hamcrest.Matchers.*;
 import io.restassured.response.Response;
 import org.junit.After;
 import org.junit.Test;
-import site.nomoreparties.stellarburgers.model.Constants;
+import site.nomoreparties.stellarburgers.model.TestData;
 import site.nomoreparties.stellarburgers.params.api.body.CrateOrderBody;
 
-public class TestCreatePositive extends BaseTest implements Constants {
+public class TestCreatePositive extends BaseTest implements TestData {
     @Before
     public void setUp(){
         baseTestURL();
         createTestUser(TESTMAIL, TESTPASS, TESTNAME);
     }
-    @Step
+    @Step("Создание заказа c авторизацией")
     public Response makeOrder(){
         String token = extractTestToken(TESTMAIL, TESTPASS);
         Response response = createTestOrder(INGREDS, token);
         return response;
     }
-    @Step
+    @Step("Создание заказа без авторизации")
     public Response makeOrderNoAuth(){
         CrateOrderBody order = new CrateOrderBody(INGREDS);
         Response response = given().header("Content-type", "application/json").
@@ -30,26 +31,29 @@ public class TestCreatePositive extends BaseTest implements Constants {
         return response;
     }
 
-    @Step
+    @Step("Проверка кода")
     public void checkCode(Response response){
         response.then().statusCode(200);
     }
-    @Step
+    @Step("Проверка успешности")
     public void checkSuccess(Response response){
         response.then().assertThat().body("success", equalTo(true));
     }
-    @Step
+    @Step("Проверка, что заказ не пустой")
     public void checkOrder(Response response){
         response.then().assertThat().body("order", notNullValue());
     }
     @Test
+    @DisplayName("Проверка создания заказа с авторизацией")
     public void testOrderAuth(){
         Response response = makeOrder();
         checkCode(response);
         checkSuccess(response);
         checkOrder(response);
+
     }
     @Test
+    @DisplayName("Проверка создания заказа без авторизации")
     public void testOrderNoAuth(){
         Response response = makeOrderNoAuth();
         checkCode(response);

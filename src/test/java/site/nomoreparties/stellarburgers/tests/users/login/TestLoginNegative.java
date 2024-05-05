@@ -8,13 +8,13 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import site.nomoreparties.stellarburgers.model.BaseTest;
-import site.nomoreparties.stellarburgers.model.Constants;
+import site.nomoreparties.stellarburgers.model.TestData;
 import site.nomoreparties.stellarburgers.params.api.body.LoginUserBody;
 import static org.hamcrest.Matchers.*;
 import static io.restassured.RestAssured.given;
 
 @RunWith(Parameterized.class)
-public class TestLoginNegative extends BaseTest implements Constants {
+public class TestLoginNegative extends BaseTest implements TestData {
     private String email;
     private String password;
     private int code;
@@ -42,21 +42,21 @@ public class TestLoginNegative extends BaseTest implements Constants {
         baseTestURL();
         createTestUser(TESTMAIL, TESTPASS, TESTNAME);
     }
-    @Step
+    @Step("Логин с невалидными данными")
     public Response loginIncorrect(){
         LoginUserBody params = new LoginUserBody(email, password);
         Response response = given().header("Content-type", "application/json").and().body(params).post("api/auth/login");
         return response;
     }
-    @Step
+    @Step("Проверка успеха")
     public void checkSuccess(Response response){
         response.then().assertThat().body("success", equalTo(success));
     }
-    @Step
+    @Step("Проверка кода")
     public void checkCode(Response response){
         response.then().statusCode(code);
     }
-    @Step
+    @Step("Проверка сообщения")
     public void checkMessage(Response response){
         response.then().assertThat().body("message", equalTo(message));
     }

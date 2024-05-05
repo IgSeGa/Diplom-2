@@ -7,65 +7,62 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import site.nomoreparties.stellarburgers.model.BaseTest;
-import site.nomoreparties.stellarburgers.model.Constants;
+import site.nomoreparties.stellarburgers.model.TestData;
 import site.nomoreparties.stellarburgers.params.api.body.UpdateUserBody;
 import site.nomoreparties.stellarburgers.params.api.responses.user.update.UpdateUser;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.*;
 
-public class TestUpdatePositive extends BaseTest implements Constants {
+public class TestUpdatePositive extends BaseTest implements TestData {
 
     @Before
     public void setUp(){
         baseTestURL();
         createTestUser(TESTMAIL, TESTPASS, TESTNAME);
     }
-    @Step
+    @Step("Создание запроса на обновление")
     public Response makeRequest(){
         UpdateUserBody params = new UpdateUserBody(SECONDMAIL, SECONDNAME);
         String token = extractTestToken(TESTMAIL, TESTPASS);
         Response response = given().header("Content-type", "application/json").body(params).auth().oauth2(token).patch("api/auth/user");
         return response;
     }
-    @Step
+    @Step("Создание запроса на обновление с ответом в объекте")
     public UpdateUser makeRequestPojo(){
-        UpdateUserBody params = new UpdateUserBody(SECONDMAIL, SECONDNAME);
-        String token = extractTestToken(TESTMAIL, TESTPASS);
+        UpdateUserBody params = new UpdateUserBody(THIRDMAIL, THIRDNAME);
+        String token = extractTestToken(SECONDMAIL, TESTPASS);
         UpdateUser response = given().header("Content-type", "application/json").body(params).auth().oauth2(token).patch("api/auth/user").as(UpdateUser.class);
         return response;
     }
-    @Step
+    @Step("Проверка кода ответа")
     public void checkCode(Response response){
         response.then().statusCode(200);
     }
-    @Step
+    @Step("Проверка успеха")
     public void checkSuccess(Response response){
         response.then().assertThat().body("success", equalTo(true));
     }
-    @Step
+    @Step("Проверка почты")
     public void checkEmail(UpdateUser response){
-        Assert.assertEquals(SECONDMAIL, response.getUser().getEmail());
+        Assert.assertEquals(THIRDMAIL, response.getUser().getEmail());
     }
-    @Step
+    @Step("Создание имени")
     public void checkName(UpdateUser response){
-        Assert.assertEquals(SECONDNAME, response.getUser().getName());
+        Assert.assertEquals(THIRDNAME, response.getUser().getName());
     }
     @Test
-    @DisplayName("Проверка кода и успеха")
+    @DisplayName("Обновление данных позитивная проверка")
     public void checkUpdateCodeSuccess(){
         Response response = makeRequest();
         checkCode(response);
         checkSuccess(response);
-    }
-    @Test
-    @DisplayName("Проверка почты и имени")
-    public void checkUpdateEmailName(){
         UpdateUser responsePojo = makeRequestPojo();
         checkEmail(responsePojo);
         checkName(responsePojo);
     }
+
     @After
     public void clearUp(){
-        deleteTestUser(SECONDMAIL, TESTPASS);
+        deleteTestUser(THIRDMAIL, TESTPASS);
     }
 }

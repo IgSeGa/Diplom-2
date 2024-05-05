@@ -1,31 +1,33 @@
 package site.nomoreparties.stellarburgers.tests.orders.create;
 import io.qameta.allure.Step;
+import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.Response;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import site.nomoreparties.stellarburgers.model.BaseTest;
-import site.nomoreparties.stellarburgers.model.Constants;
+import site.nomoreparties.stellarburgers.model.TestData;
 
 
-public class TestCreateWrongHash extends BaseTest implements Constants {
+public class TestCreateWrongHash extends BaseTest implements TestData {
     @Before
     public void setUp(){
         baseTestURL();
         createTestUser(TESTMAIL, TESTPASS, TESTNAME);
     }
-    @Step
+    @Step("Передача данных с неверным хэшем")
     public Response makeOrder(){
         String [] ingreds = {""};
         String token = extractTestToken(TESTMAIL, TESTPASS);
         Response response = createTestOrder(ingreds, token);
         return response;
     }
-    @Step
+    @Step("Проверка кода ответа")
     public void checkCode(Response response){
         response.then().statusCode(500);
     }
     @Test
+    @DisplayName("Проверка заказа с неверным хэшем")
     public void testCreateNoIgred(){
         Response response = makeOrder();
         checkCode(response);

@@ -7,13 +7,13 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import site.nomoreparties.stellarburgers.model.BaseTest;
-import site.nomoreparties.stellarburgers.model.Constants;
+import site.nomoreparties.stellarburgers.model.TestData;
 import site.nomoreparties.stellarburgers.params.api.body.LoginUserBody;
 import site.nomoreparties.stellarburgers.params.api.responses.user.login.LoginUser;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.*;
 
-public class TestLoginPositive extends BaseTest implements Constants {
+public class TestLoginPositive extends BaseTest implements TestData {
 
     @Before
     public void setUp(){
@@ -21,39 +21,40 @@ public class TestLoginPositive extends BaseTest implements Constants {
         createTestUser(TESTMAIL, TESTPASS, TESTNAME);
     }
 
-    @Step
+    @Step("Отправка запроса на логин")
     public Response loginUser(){
         LoginUserBody params = new LoginUserBody(TESTMAIL, TESTPASS);
         Response response = given().header("Content-type", "application/json").and().body(params).post("api/auth/login");
         return response;
     }
-    @Step
+    @Step("Отправка запроса на логин с ответом в объекте")
     public LoginUser loginUserPojo(){
         LoginUserBody params = new LoginUserBody(TESTMAIL, TESTPASS);
-        LoginUser response = given().header("Content-type", "application/json").and().body(params).post("api/auth/login").as(LoginUser.class);
+        LoginUser response = given().header("Content-type", "application/json").and().body(params)
+                .post("api/auth/login").as(LoginUser.class);
         return response;
     }
-    @Step
+    @Step("Проверка кода ответа")
     public void checkStatus(Response response){
         response.then().statusCode(200);
     }
-    @Step
+    @Step("Проверка успеха")
     public void checkSuccess(Response response){
         response.then().assertThat().body("success", equalTo(true));
     }
-    @Step
+    @Step("Проверка токена доступа")
     public void checkAccess(Response response){
         response.then().assertThat().body("accessToken", notNullValue());
     }
-    @Step
+    @Step("Проверка токена обновления")
     public void checkRefresh(Response response){
         response.then().assertThat().body("refreshToken", notNullValue());
     }
-    @Step
+    @Step("Проверка почты")
     public void checkEmail(LoginUser response){
         Assert.assertEquals(TESTMAIL, response.getUser().getEmail());
     }
-    @Step
+    @Step("Проверка имени")
     public void checkName(LoginUser response){
         Assert.assertEquals(TESTNAME, response.getUser().getName());
     }
@@ -61,18 +62,15 @@ public class TestLoginPositive extends BaseTest implements Constants {
     @DisplayName("Логин позитивная проверка")
     public void checkLoginPositive(){
         Response response = loginUser();
-//        checkStatus(response);
+        checkStatus(response);
         checkSuccess(response);
         checkAccess(response);
         checkRefresh(response);
-    }
-
-    @Test
-    public void checkLoginDetails(){
         LoginUser responsePojo = loginUserPojo();
         checkEmail(responsePojo);
         checkName(responsePojo);
     }
+
     @After
     public void clearData(){
         deleteTestUser(TESTMAIL, TESTPASS);
