@@ -11,7 +11,7 @@ import org.junit.Test;
 import site.nomoreparties.stellarburgers.model.TestData;
 import site.nomoreparties.stellarburgers.params.api.body.CrateOrderBody;
 
-public class TestCreatePositive extends BaseTest implements TestData {
+public class TestCreateAuthNoAuth extends BaseTest implements TestData {
     @Before
     public void setUp(){
         baseTestURL();
