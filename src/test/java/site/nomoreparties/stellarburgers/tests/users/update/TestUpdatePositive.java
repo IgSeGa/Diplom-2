@@ -6,14 +6,13 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import site.nomoreparties.stellarburgers.model.BaseTest;
-import site.nomoreparties.stellarburgers.model.TestData;
+import site.nomoreparties.stellarburgers.tests.BaseTest;
 import site.nomoreparties.stellarburgers.params.api.body.UpdateUserBody;
 import site.nomoreparties.stellarburgers.params.api.responses.user.update.UpdateUser;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.*;
 
-public class TestUpdatePositive extends BaseTest implements TestData {
+public class TestUpdatePositive extends BaseTest {
 
     @Before
     public void setUp(){

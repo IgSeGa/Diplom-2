@@ -2,16 +2,15 @@ package site.nomoreparties.stellarburgers.tests.orders.create;
 import io.qameta.allure.Step;
 import io.qameta.allure.junit4.DisplayName;
 import org.junit.Before;
-import site.nomoreparties.stellarburgers.model.BaseTest;
+import site.nomoreparties.stellarburgers.tests.BaseTest;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.*;
 import io.restassured.response.Response;
 import org.junit.After;
 import org.junit.Test;
-import site.nomoreparties.stellarburgers.model.TestData;
 import site.nomoreparties.stellarburgers.params.api.body.CrateOrderBody;
 
-public class TestCreateAuthNoAuth extends BaseTest implements TestData {
+public class TestCreateAuthNoAuth extends BaseTest {
     @Before
     public void setUp(){
         baseTestURL();

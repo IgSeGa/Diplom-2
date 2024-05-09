@@ -21,5 +21,4 @@ public class UpdateUserBody {
         this.email = email;
         this.name = name;
     }
-    public UpdateUserBody(){}
 }

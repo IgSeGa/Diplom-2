@@ -5,13 +5,12 @@ import io.restassured.response.Response;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import site.nomoreparties.stellarburgers.model.BaseTest;
-import site.nomoreparties.stellarburgers.model.TestData;
+import site.nomoreparties.stellarburgers.tests.BaseTest;
 import site.nomoreparties.stellarburgers.params.api.body.UpdateUserBody;
 import static org.hamcrest.Matchers.*;
 import static io.restassured.RestAssured.given;
 
-public class TestUserExisting extends BaseTest implements TestData {
+public class TestUserExisting extends BaseTest{
 
     @Before
     public void setUp(){

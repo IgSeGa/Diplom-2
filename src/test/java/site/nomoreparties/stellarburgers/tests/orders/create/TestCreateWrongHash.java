@@ -5,11 +5,10 @@ import io.restassured.response.Response;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import site.nomoreparties.stellarburgers.model.BaseTest;
-import site.nomoreparties.stellarburgers.model.TestData;
+import site.nomoreparties.stellarburgers.tests.BaseTest;
 
 
-public class TestCreateWrongHash extends BaseTest implements TestData {
+public class TestCreateWrongHash extends BaseTest{
     @Before
     public void setUp(){
         baseTestURL();

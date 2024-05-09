@@ -7,14 +7,13 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-import site.nomoreparties.stellarburgers.model.BaseTest;
-import site.nomoreparties.stellarburgers.model.TestData;
+import site.nomoreparties.stellarburgers.tests.BaseTest;
 import site.nomoreparties.stellarburgers.params.api.body.LoginUserBody;
 import static org.hamcrest.Matchers.*;
 import static io.restassured.RestAssured.given;
 
 @RunWith(Parameterized.class)
-public class TestLoginNegative extends BaseTest implements TestData {
+public class TestLoginNegative extends BaseTest {
     private String email;
     private String password;
     private int code;

@@ -5,7 +5,7 @@ import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.Response;
 import org.junit.Before;
 import org.junit.Test;
-import site.nomoreparties.stellarburgers.model.BaseTest;
+import site.nomoreparties.stellarburgers.tests.BaseTest;
 import static io.restassured.RestAssured.given;
 
 public class TestGetOrderNoAuth extends BaseTest {

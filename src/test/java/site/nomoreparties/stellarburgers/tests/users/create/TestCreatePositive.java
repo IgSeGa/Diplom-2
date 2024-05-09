@@ -6,18 +6,15 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import site.nomoreparties.stellarburgers.model.BaseTest;
-import site.nomoreparties.stellarburgers.model.TestData;
+import site.nomoreparties.stellarburgers.tests.BaseTest;
 import site.nomoreparties.stellarburgers.params.api.body.CreateUserBody;
 import site.nomoreparties.stellarburgers.params.api.responses.user.create.CreateUser;
-
-import static io.restassured.RestAssured.get;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.notNullValue;
 
 
-public class TestCreatePositive extends BaseTest implements TestData {
+public class TestCreatePositive extends BaseTest{
 
     @Before
     public void setUp(){

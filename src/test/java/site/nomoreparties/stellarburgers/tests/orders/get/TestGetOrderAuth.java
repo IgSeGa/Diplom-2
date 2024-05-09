@@ -7,13 +7,12 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import site.nomoreparties.stellarburgers.model.BaseTest;
-import site.nomoreparties.stellarburgers.model.TestData;
+import site.nomoreparties.stellarburgers.tests.BaseTest;
 import site.nomoreparties.stellarburgers.params.api.responses.order.create.CreateOrder;
 import site.nomoreparties.stellarburgers.params.api.responses.order.get.GetOrder;
 import static io.restassured.RestAssured.given;
 
-public class TestGetOrderAuth extends BaseTest implements TestData {
+public class TestGetOrderAuth extends BaseTest{
 
     @Before
     public void setUp(){
@@ -53,7 +52,7 @@ public class TestGetOrderAuth extends BaseTest implements TestData {
     }
     @Step("Проверка id заказа")
     public void checkOrderId(GetOrder order, CreateOrder etalon){
-        Assert.assertEquals(order.getOrders().get(0).get_id(), etalon.getOrder().get_id());
+        Assert.assertEquals(order.getOrders().get(0).getId(), etalon.getOrder().getId());
     }
     @Step("Проверка названия заказа")
     public void checkOrderName(GetOrder order, CreateOrder etalon){

@@ -13,5 +13,4 @@ public class CrateOrderBody {
     public CrateOrderBody(String[] ingredients){
         this.ingredients = ingredients;
     }
-    public CrateOrderBody(){}
 }
